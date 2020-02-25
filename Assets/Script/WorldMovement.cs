@@ -5,6 +5,7 @@ using UnityEngine;
 public class WorldMovement : MonoBehaviour
 {
     [SerializeField] List<Transform> treadmillObjects;
+    [SerializeField] List<Transform> dynamicallyPlacedObjects;
     [SerializeField] float moveSpeed;
     [SerializeField] float killThreshold;
     GameManager gm;
@@ -22,6 +23,16 @@ public class WorldMovement : MonoBehaviour
         foreach (Transform t in treadmillObjects)
         {
             t.position = new Vector3(t.position.x, t.position.y, t.position.z -gm.MoveSpeed * Time.deltaTime);
+
+            if (t.position.z <= killThreshold - (t.lossyScale.z * 2))
+            {
+                t.position = GameManager.Get.Lanes[1].position;
+            }
+        }
+
+        foreach (Transform t in dynamicallyPlacedObjects)
+        {
+            t.position = new Vector3(t.position.x, t.position.y, t.position.z - gm.MoveSpeed * Time.deltaTime);
 
             if (t.position.z <= killThreshold)
             {
