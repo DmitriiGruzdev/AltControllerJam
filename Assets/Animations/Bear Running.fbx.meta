@@ -18,7 +18,8 @@ ModelImporter:
     resampleCurves: 1
     optimizeGameObjects: 0
     motionNodeName: 
-    rigImportErrors: 
+    rigImportErrors: "Invalid Avatar Rig Configuration. Missing or invalid transform:\n\tRequired
+      human bone 'Head' not found\n"
     rigImportWarnings: 
     animationImportErrors: 
     animationImportWarnings: 
@@ -26,7 +27,7 @@ ModelImporter:
     animationDoRetargetingWarnings: 0
     importAnimatedCustomProperties: 0
     importConstraints: 0
-    animationCompression: 1
+    animationCompression: 3
     animationRotationError: 0.5
     animationPositionError: 0.5
     animationScaleError: 0.5
@@ -105,7 +106,82 @@ ModelImporter:
   humanDescription:
     serializedVersion: 3
     human: []
-    skeleton: []
+    skeleton:
+    - name: Bear Running(Clone)
+      parentName: 
+      position: {x: 0, y: 0, z: 0}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Bear1:Bear
+      parentName: Bear Running(Clone)
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Bear1:joint1
+      parentName: Bear Running(Clone)
+      position: {x: -0, y: 1.4800044, z: -0.0052868477}
+      rotation: {x: -0, y: -0.000000042146848, z: -0.70576024, w: 0.7084508}
+      scale: {x: 1.0000001, y: 1.0000001, z: 1.0000005}
+    - name: Bear1:joint2
+      parentName: Bear1:joint1
+      position: {x: -1.0774368, y: 9.8358816e-17, z: 1.0920022e-32}
+      rotation: {x: 0.99998003, y: -0.0063270926, z: -0.000000029802322, w: 0.000000029802322}
+      scale: {x: 1.0000002, y: 1.0000005, z: 1.0000004}
+    - name: Bear1:joint3
+      parentName: Bear1:joint2
+      position: {x: -1.0579919, y: 2.106648e-15, z: -1.4862962e-18}
+      rotation: {x: -0.49778277, y: 0.5022074, z: 0.49778277, w: 0.50220746}
+      scale: {x: 0.9999997, y: 0.9999996, z: 0.9999999}
+    - name: Bear1:joint9
+      parentName: Bear1:joint2
+      position: {x: 0.13991395, y: -0.64576906, z: -0.000000013608567}
+      rotation: {x: 0.59144783, y: 0.80634326, z: 0.000000031417816, w: -0.0000000107795595}
+      scale: {x: 1, y: 1, z: 1.0000001}
+    - name: Bear1:joint8 1
+      parentName: Bear1:joint9
+      position: {x: -0.8928012, y: 8.8817837e-17, z: 0}
+      rotation: {x: -0.21832566, y: -0.6725578, z: -0.21832557, w: 0.6725577}
+      scale: {x: 1.0000001, y: 0.99999994, z: 1.0000005}
+    - name: Bear1:joint7
+      parentName: Bear1:joint2
+      position: {x: 0.15142356, y: 0.65481657, z: 0.000000013799227}
+      rotation: {x: -0.58275855, y: 0.8126453, z: 0.000000032901372, w: 0.000000015126334}
+      scale: {x: 1.0000007, y: 0.99999994, z: 1.0000001}
+    - name: Bear1:joint8
+      parentName: Bear1:joint7
+      position: {x: -0.8928012, y: 1.7763567e-16, z: -4.632211e-24}
+      rotation: {x: -0.21832561, y: -0.6725577, z: -0.21832567, w: 0.67255783}
+      scale: {x: 1.0000004, y: 0.99999994, z: 1.0000004}
+    - name: Bear1:joint4
+      parentName: Bear1:joint1
+      position: {x: 0.24819411, y: 0.50285906, z: 5.582857e-17}
+      rotation: {x: 0.04474464, y: -0.9989985, z: 0.000000029802322, w: 0.000000029802322}
+      scale: {x: 1.0000006, y: 0.9999998, z: 1.0000004}
+    - name: Bear1:joint5
+      parentName: Bear1:joint4
+      position: {x: -0.50604004, y: 0.051582254, z: 6.3170046e-18}
+      rotation: {x: 0.47613317, y: 0.52277833, z: -0.47613323, w: 0.52277833}
+      scale: {x: 1.0000002, y: 1.0000004, z: 1.0000004}
+    - name: Bear1:joint11
+      parentName: Bear1:joint5
+      position: {x: -4.810537e-17, y: -0.624311, z: 0.0049072704}
+      rotation: {x: 0.000000029802319, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Bear1:joint6
+      parentName: Bear1:joint1
+      position: {x: 0.24436675, y: -0.50302416, z: -5.58469e-17}
+      rotation: {x: 0.075355195, y: 0.99715674, z: -0.000000029802319, w: -0.000000029802319}
+      scale: {x: 0.9999997, y: 0.9999998, z: 0.9999995}
+    - name: Bear1:joint5 1
+      parentName: Bear1:joint6
+      position: {x: -0.5096051, y: -0.08110191, z: -9.2326386e-17}
+      rotation: {x: -0.4761331, y: -0.5227784, z: 0.47613317, w: -0.5227784}
+      scale: {x: 1, y: 1.0000001, z: 1.0000001}
+    - name: Bear1:joint10
+      parentName: Bear1:joint5 1
+      position: {x: -3.7014757e-18, y: -0.6193929, z: -0.143211}
+      rotation: {x: 0.119897276, y: -0, z: -0, w: 0.9927863}
+      scale: {x: 1.0000001, y: 1.0000005, z: 0.9999999}
     armTwist: 0.5
     foreArmTwist: 0.5
     upperLegTwist: 0.5
@@ -113,10 +189,10 @@ ModelImporter:
     armStretch: 0.05
     legStretch: 0.05
     feetSpacing: 0
-    globalScale: 0.19999999
+    globalScale: 20
     rootMotionBoneName: 
     hasTranslationDoF: 0
-    hasExtraRoot: 0
+    hasExtraRoot: 1
     skeletonHasParents: 1
   lastHumanDescriptionAvatarSource: {instanceID: 0}
   animationType: 2

@@ -48,6 +48,7 @@ public class GameManager : MonoBehaviour
         set
         {
             moveSpeed = Mathf.Clamp(value, 0, maxMoveSpeed);
+            ScoreManager.Get.Score += Mathf.RoundToInt(moveSpeed / 10);
         }
         get
         {

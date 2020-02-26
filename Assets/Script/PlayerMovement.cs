@@ -6,14 +6,35 @@ public class PlayerMovement : MonoBehaviour
 {
     enum CurrentLane { LEFT, MID, RIGHT };
     CurrentLane currentLane = CurrentLane.MID;
+
+    CapsuleCollider capsuleCollider;
+    [SerializeField] float duckHeight;
+    [SerializeField] float standingHeight;
+
+    //RUNNING
     [SerializeField] float stoppingSpeed;
     [SerializeField] float speedDecrement;
     [SerializeField] float speedIncrement;
     [SerializeField] float timeBeforeStop = 1f;
 
     bool stepped = false;
-    
+
+    //DUCK
+    bool ducking = false;
+
+    //JUMP
+    bool jumping = false;
+    [SerializeField] float timeToApex;
+    [SerializeField] float hangTime;
+    [SerializeField] float timeToGround;
+    [SerializeField] float jumpHeight;
+
     static GameManager gm;
+
+    private void Awake()
+    {
+        capsuleCollider = GetComponent<CapsuleCollider>();
+    }
 
     // Start is called before the first frame update
     void Start()
@@ -24,8 +45,8 @@ public class PlayerMovement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetButtonDown("LeftFootLeft") || Input.GetButtonDown("RightFootLeft") || Input.GetButtonDown("LeftFootMid")
-            || Input.GetButtonDown("RightFootMid") || Input.GetButtonDown("LeftFootRight") || Input.GetButtonDown("RightFootRight"))
+        if ((Input.GetButtonDown("LeftFootLeft") || Input.GetButtonDown("RightFootLeft") || Input.GetButtonDown("LeftFootMid")
+            || Input.GetButtonDown("RightFootMid") || Input.GetButtonDown("LeftFootRight") || Input.GetButtonDown("RightFootRight")) && !jumping)
         {
             stepped = true;
             StopAllCoroutines();
@@ -72,7 +93,7 @@ public class PlayerMovement : MonoBehaviour
 
             transform.position = newPos;
         }
-        else
+        else if (!jumping)
         {
             if (!stepped)
             {
@@ -82,6 +103,25 @@ public class PlayerMovement : MonoBehaviour
             {
                 gm.MoveSpeed -= (gm.MoveSpeed)  * Time.deltaTime;
             }
+        }
+
+        if (Input.GetButtonDown("Duck"))
+        {
+            capsuleCollider.height = duckHeight;
+            Vector3 newPos = new Vector3(capsuleCollider.center.x, (standingHeight /2f) - (duckHeight / 2f), capsuleCollider.center.z);
+            capsuleCollider.center = newPos;
+        }
+        else if (Input.GetButtonUp("Duck"))
+        {
+            capsuleCollider.height = standingHeight;
+            Vector3 newPos = new Vector3(capsuleCollider.center.x, (standingHeight / 2f), capsuleCollider.center.z);
+            capsuleCollider.center = newPos;
+        }
+
+        if (Input.GetButtonDown("Jump") && !jumping)
+        {
+            jumping = true;
+            StartCoroutine(Jump());
         }
     }
    
@@ -98,5 +138,41 @@ public class PlayerMovement : MonoBehaviour
             }
             yield return null;
         }
+    }
+
+    IEnumerator Jump()
+    {
+        float time = 0;
+        Vector3 jumpVector = new Vector3(transform.position.x, jumpHeight, transform.position.z);
+        Vector3 groundVector = new Vector3(transform.position.x, transform.position.y, transform.position.z);
+        while (time <= timeToApex)
+        {
+            time += Time.deltaTime;
+            float perComp = time / timeToApex;
+            if (perComp >= 1)
+                break;
+            
+            transform.position = Vector3.Slerp(transform.position, jumpVector, perComp);
+            yield return null;
+        }
+        time = 0;
+
+        while (time <= hangTime)
+        {
+            time += Time.deltaTime;
+            yield return null;
+        }
+
+        while (time <= timeToGround)
+        {
+            time += Time.deltaTime;
+            float perComp = time / timeToApex;
+            if (perComp >= 1)
+                break;
+            
+            transform.position = Vector3.Slerp(transform.position, groundVector, perComp);
+            yield return null;
+        }
+        jumping = false;
     }
 }
