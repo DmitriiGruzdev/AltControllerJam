@@ -5,8 +5,7 @@ using UnityEngine;
 public class GameManager : MonoBehaviour
 {
     [SerializeField] List<Transform> lanes;
-    [SerializeField] float leftMoveSpeed;
-    [SerializeField] float rightMoveSpeed;
+    [SerializeField] float moveSpeed;
     [SerializeField] float maxMoveSpeed;
     [SerializeField] float laneWidth;
     static GameManager mInstance;
@@ -44,27 +43,15 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    public float LeftMoveSpeed
+    public float MoveSpeed
     {
         set
         {
-            leftMoveSpeed = Mathf.Clamp(value, 0, maxMoveSpeed);
+            moveSpeed = Mathf.Clamp(value, 0, maxMoveSpeed);
         }
         get
         {
-            return leftMoveSpeed;
-        }
-    }
-
-    public float RightMoveSpeed
-    {
-        set
-        {
-            rightMoveSpeed = Mathf.Clamp( value, 0, maxMoveSpeed);
-        }
-        get
-        {
-            return rightMoveSpeed;
+            return moveSpeed;
         }
     }
 

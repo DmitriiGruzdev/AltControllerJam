@@ -1096,9 +1096,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 41c76f0dbcb6fc34c8bc86a53982f89e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speedDecrement: 300
-  speedIncrement: 400
-  stepDistance: 0
+  stoppingSpeed: 300
+  speedDecrement: 10
+  speedIncrement: 500
+  timeBeforeStop: 0.2
 --- !u!1 &1909771501
 GameObject:
   m_ObjectHideFlags: 0
@@ -1254,8 +1255,7 @@ MonoBehaviour:
   - {fileID: 759158164}
   - {fileID: 2107958292}
   - {fileID: 685971723}
-  leftMoveSpeed: 0
-  rightMoveSpeed: 0
+  moveSpeed: 0
   maxMoveSpeed: 100
   laneWidth: 4
 --- !u!1 &2073034607
