@@ -22,9 +22,9 @@ public class WorldMovement : MonoBehaviour
     {
         foreach (Transform t in treadmillObjects)
         {
-            t.position = new Vector3(t.position.x, t.position.y, t.position.z -gm.MoveSpeed * Time.deltaTime);
+            t.position = new Vector3(t.position.x, t.position.y, t.position.z -(gm.LeftMoveSpeed + gm.RightMoveSpeed) * Time.deltaTime);
 
-            if (t.position.z <= killThreshold - (t.lossyScale.z * 2))
+            if (t.position.z <= killThreshold - (t.lossyScale.z + 0.5f))
             {
                 t.position = GameManager.Get.Lanes[1].position;
             }
@@ -32,7 +32,7 @@ public class WorldMovement : MonoBehaviour
 
         foreach (Transform t in dynamicallyPlacedObjects)
         {
-            t.position = new Vector3(t.position.x, t.position.y, t.position.z - gm.MoveSpeed * Time.deltaTime);
+            t.position = new Vector3(t.position.x, t.position.y, t.position.z - (gm.LeftMoveSpeed + gm.RightMoveSpeed) * Time.deltaTime);
 
             if (t.position.z <= killThreshold)
             {
