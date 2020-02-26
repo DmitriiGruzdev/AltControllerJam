@@ -37,8 +37,9 @@ public class WorldMovement : MonoBehaviour
             if (t.position.z <= killThreshold)
             {
                 int startingLane = Random.Range((int)0, (int)3);
+                Vector3 distanceFromPlayer = new Vector3(GameManager.Get.Lanes[startingLane].position.x, GameManager.Get.Lanes[startingLane].position.y, GameManager.Get.Lanes[startingLane].position.z + Random.Range(-5f, 300f));
 
-                t.position = GameManager.Get.Lanes[startingLane].position;
+                t.position = distanceFromPlayer;
             }
         }
     }
