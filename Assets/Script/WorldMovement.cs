@@ -10,11 +10,18 @@ public class WorldMovement : MonoBehaviour
     [SerializeField] float killThreshold;
     GameManager gm;
 
+    Vector3 originalPos;
+
     // Start is called before the first frame update
     void Start()
     {
         Random.InitState((int)(Time.time * 10));
         gm = GameManager.Get;
+
+        foreach (Transform t in treadmillObjects)
+        {
+            originalPos = new Vector3(t.position.x, t.position.y, t.position.z);
+        }
     }
 
     // Update is called once per frame
@@ -26,7 +33,9 @@ public class WorldMovement : MonoBehaviour
 
             if (t.position.z <= killThreshold - (t.lossyScale.z + 0.5f))
             {
-                t.position = GameManager.Get.Lanes[1].position;
+
+                t.position = originalPos;
+                //t.position = GameManager.Get.Lanes[1].position;
             }
         }
 

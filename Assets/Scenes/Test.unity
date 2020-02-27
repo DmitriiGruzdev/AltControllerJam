@@ -1096,10 +1096,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 41c76f0dbcb6fc34c8bc86a53982f89e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  duckHeight: 0
+  standingHeight: 0
   stoppingSpeed: 300
   speedDecrement: 10
   speedIncrement: 500
   timeBeforeStop: 0.2
+  timeToApex: 0
+  hangTime: 0
+  timeToGround: 0
+  jumpHeight: 0
 --- !u!1 &1909771501
 GameObject:
   m_ObjectHideFlags: 0
@@ -1144,6 +1150,7 @@ GameObject:
   - component: {fileID: 2022398966}
   - component: {fileID: 2022398965}
   - component: {fileID: 2022398969}
+  - component: {fileID: 2022398970}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -1255,9 +1262,21 @@ MonoBehaviour:
   - {fileID: 759158164}
   - {fileID: 2107958292}
   - {fileID: 685971723}
-  moveSpeed: 0
+  moveSpeed: 10
   maxMoveSpeed: 100
   laneWidth: 4
+--- !u!114 &2022398970
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2022398964}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 736a9f9d364526644ad13067a037028f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &2073034607
 GameObject:
   m_ObjectHideFlags: 0
