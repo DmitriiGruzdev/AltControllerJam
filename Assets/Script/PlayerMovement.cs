@@ -29,11 +29,14 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] float timeToGround;
     [SerializeField] float jumpHeight;
 
+
+    private Animator anim;
     static GameManager gm;
 
     private void Awake()
     {
         capsuleCollider = GetComponent<CapsuleCollider>();
+        anim = GetComponent<Animator>();
     }
 
     // Start is called before the first frame update
@@ -98,17 +101,19 @@ public class PlayerMovement : MonoBehaviour
             if (!stepped)
             {
                 gm.MoveSpeed -= stoppingSpeed * Time.deltaTime;
+                //gm.MoveSpeed = 0;
+
             }
             else
             {
-                gm.MoveSpeed -= (gm.MoveSpeed)  * Time.deltaTime;
+                gm.MoveSpeed -= (gm.MoveSpeed) * Time.deltaTime;
             }
         }
 
         if (Input.GetButtonDown("Duck"))
         {
             capsuleCollider.height = duckHeight;
-            Vector3 newPos = new Vector3(capsuleCollider.center.x, (standingHeight /2f) - (duckHeight / 2f), capsuleCollider.center.z);
+            Vector3 newPos = new Vector3(capsuleCollider.center.x, (standingHeight / 2f) - (duckHeight / 2f), capsuleCollider.center.z);
             capsuleCollider.center = newPos;
         }
         else if (Input.GetButtonUp("Duck"))
@@ -123,8 +128,10 @@ public class PlayerMovement : MonoBehaviour
             jumping = true;
             StartCoroutine(Jump());
         }
+
+        AnimationCheck();
     }
-   
+
     IEnumerator ResetStepped()
     {
         float time = 0;
@@ -151,7 +158,7 @@ public class PlayerMovement : MonoBehaviour
             float perComp = time / timeToApex;
             if (perComp >= 1)
                 break;
-            
+
             transform.position = Vector3.Slerp(transform.position, jumpVector, perComp);
             yield return null;
         }
@@ -169,10 +176,45 @@ public class PlayerMovement : MonoBehaviour
             float perComp = time / timeToApex;
             if (perComp >= 1)
                 break;
-            
+
             transform.position = Vector3.Slerp(transform.position, groundVector, perComp);
             yield return null;
         }
         jumping = false;
+    }
+
+    /// <summary>
+    /// Checks the player state, running , jumping etc and triggers animations
+    /// </summary>
+    void AnimationCheck()
+    {
+        if(gm.MoveSpeed!=0)
+        {
+            anim.SetBool("isRunning", true);
+            anim.SetFloat("runSpeed", gm.MoveSpeed/10);
+        }
+        else
+        {
+            anim.SetBool("isRunning", false);
+            anim.SetFloat("runSpeed", 1);
+        }
+
+        if(jumping)
+        {
+            anim.SetBool("isJumping", true);
+        }
+        else
+        {
+            anim.SetBool("isJumping", false);
+        }
+
+        if(ducking)
+        {
+            anim.SetBool("isDucking", true);
+        }
+        else
+        {
+            anim.SetBool("isDucking", false);
+        }
     }
 }
