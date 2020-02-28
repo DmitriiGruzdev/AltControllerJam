@@ -39,6 +39,11 @@ public class CrowdManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (crowdScore <= 0)
+        {
+            gm.GameOver();
+        }
+
         if (gm.MoveSpeed < targetSpeed)
         {
             DecreaseCrowdScore(scoreDecrease * Time.deltaTime);

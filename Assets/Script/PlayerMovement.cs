@@ -15,6 +15,7 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] float stoppingSpeed;
     [SerializeField] float speedDecrement;
     [SerializeField] float speedIncrement;
+    [SerializeField] float speedPenalty;
     [SerializeField] float timeBeforeStop = 1f;
 
     bool stepped = false;
@@ -192,7 +193,6 @@ public class PlayerMovement : MonoBehaviour
         {
             time += Time.deltaTime;
             float perComp = time / timeToApex;
-            Debug.Log(perComp);
             if (perComp >= 1)
                 break;
 
@@ -209,7 +209,6 @@ public class PlayerMovement : MonoBehaviour
         {
             time += Time.deltaTime;
             float perComp = time / timeToApex;
-            Debug.Log(perComp);
             if (perComp >= 1)
                 break;
 
@@ -252,5 +251,10 @@ public class PlayerMovement : MonoBehaviour
         {
             anim.SetBool("isDucking", false);
         }
+    }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        gm.MoveSpeed -= speedPenalty;
     }
 }

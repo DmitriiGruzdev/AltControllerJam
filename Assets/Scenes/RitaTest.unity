@@ -7401,6 +7401,7 @@ MonoBehaviour:
   stoppingSpeed: 20
   speedDecrement: 300
   speedIncrement: 400
+  speedPenalty: 50
   timeBeforeStop: 1
   timeToApex: 0.5
   timeBeforeJumpStart: 0.6
