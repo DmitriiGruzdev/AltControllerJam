@@ -24,6 +24,7 @@ public class PlayerMovement : MonoBehaviour
 
     //JUMP
     bool jumping = false;
+    bool canJump = false;
     [SerializeField] float timeToApex;
     [SerializeField] float hangTime;
     [SerializeField] float timeToGround;
@@ -113,20 +114,26 @@ public class PlayerMovement : MonoBehaviour
         if (Input.GetButtonDown("Duck"))
         {
             capsuleCollider.height = duckHeight;
+            ducking = true;
             Vector3 newPos = new Vector3(capsuleCollider.center.x, (standingHeight / 2f) - (duckHeight / 2f), capsuleCollider.center.z);
             capsuleCollider.center = newPos;
         }
         else if (Input.GetButtonUp("Duck"))
         {
             capsuleCollider.height = standingHeight;
+            ducking = false;
             Vector3 newPos = new Vector3(capsuleCollider.center.x, (standingHeight / 2f), capsuleCollider.center.z);
             capsuleCollider.center = newPos;
         }
-
+        if ((Input.GetButton("LeftFootLeft") && Input.GetButton("RightFootLeft") || Input.GetButton("LeftFootMid")
+        && Input.GetButton("RightFootMid") || Input.GetButton("LeftFootRight") && Input.GetButton("RightFootRight")) && !jumping)
+        {
+            StartCoroutine(CheckForJump());
+        }
         if (Input.GetButtonDown("Jump") && !jumping)
         {
             jumping = true;
-            StartCoroutine(Jump());
+
         }
 
         AnimationCheck();
@@ -147,6 +154,33 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
+    IEnumerator CheckForJump()
+    {
+        float time = 0;
+        while (true)
+        {
+            if (!(Input.GetButtonDown("LeftFootLeft") || Input.GetButtonDown("RightFootLeft") || Input.GetButtonDown("LeftFootMid")
+            || Input.GetButtonDown("RightFootMid") || Input.GetButtonDown("LeftFootRight") || Input.GetButtonDown("RightFootRight")))
+            {
+                time += Time.deltaTime;
+                StartCoroutine(Jump());
+            }
+            else
+            {
+                time = 0;
+                break;
+            }
+
+            if (time > 0.5f)
+            {
+                jumping = true;
+                StartCoroutine(Jump());
+                break;
+            }
+            yield return null;
+        }
+    }
+
     IEnumerator Jump()
     {
         float time = 0;
@@ -159,17 +193,10 @@ public class PlayerMovement : MonoBehaviour
             if (perComp >= 1)
                 break;
 
-            transform.position = Vector3.Slerp(transform.position, jumpVector, perComp);
+            transform.position = Vector3.Lerp(transform.position, jumpVector, perComp);
             yield return null;
         }
         time = 0;
-
-        while (time <= hangTime)
-        {
-            time += Time.deltaTime;
-            yield return null;
-        }
-
         while (time <= timeToGround)
         {
             time += Time.deltaTime;
@@ -177,7 +204,7 @@ public class PlayerMovement : MonoBehaviour
             if (perComp >= 1)
                 break;
 
-            transform.position = Vector3.Slerp(transform.position, groundVector, perComp);
+            transform.position = Vector3.Lerp(transform.position, groundVector, perComp);
             yield return null;
         }
         jumping = false;
