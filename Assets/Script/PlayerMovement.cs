@@ -4,6 +4,11 @@ using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
+    //AUDIO
+    [SerializeField] AudioSource audioSource;
+    bool stepPlayed = false;
+    [SerializeField] List<AudioClip> audioClips;
+
     enum CurrentLane { LEFT, MID, RIGHT };
     CurrentLane currentLane = CurrentLane.MID;
 
@@ -54,9 +59,25 @@ public class PlayerMovement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if ((Input.GetButton("LeftFootLeft") || Input.GetButton("RightFootLeft") || Input.GetButton("LeftFootMid")
-            || Input.GetButton("RightFootMid") || Input.GetButton("LeftFootRight") || Input.GetButton("RightFootRight")))
+        if ((Input.GetButtonDown("LeftFootLeft") || Input.GetButtonDown("RightFootLeft") || Input.GetButtonDown("LeftFootMid")
+            || Input.GetButtonDown("RightFootMid") || Input.GetButtonDown("LeftFootRight") || Input.GetButtonDown("RightFootRight")))
         {
+            if (stepPlayed)
+            {
+                stepPlayed = false;
+                audioSource.PlayOneShot(audioClips[0]);
+            }
+            else
+            {
+                stepPlayed = true;
+                audioSource.PlayOneShot(audioClips[1]);
+            }
+        }
+
+        if ((Input.GetButtonDown("LeftFootLeft") || Input.GetButtonDown("RightFootLeft") || Input.GetButtonDown("LeftFootMid")
+            || Input.GetButtonDown("RightFootMid") || Input.GetButtonDown("LeftFootRight") || Input.GetButtonDown("RightFootRight")))
+        {
+
             if (jumping)
             {
                 //StopAllCoroutines();
@@ -64,7 +85,8 @@ public class PlayerMovement : MonoBehaviour
             }
             else
             {
-                stepped = true;
+                stepped = true;              
+
                 StopAllCoroutines();
                 StartCoroutine(ResetStepped());
                 Vector3 newPos = transform.position;
@@ -148,6 +170,7 @@ public class PlayerMovement : MonoBehaviour
     IEnumerator ResetStepped()
     {
         float time = 0;
+
         while (true)
         {
             time += Time.deltaTime;

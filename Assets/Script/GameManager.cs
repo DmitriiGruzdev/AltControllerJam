@@ -6,10 +6,15 @@ using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
+    //AUDIO
+    AudioSource audioSource;
+    [SerializeField] AudioClip gameOverSound;
+
     [SerializeField] List<Transform> lanes;
     [SerializeField] float moveSpeed;
     [SerializeField] float maxMoveSpeed;
     [SerializeField] float laneWidth;
+    bool gameOver;
     static GameManager mInstance;
 
     //UI
@@ -19,6 +24,7 @@ public class GameManager : MonoBehaviour
     void Awake()
     {
         mInstance = this;
+        audioSource = GetComponent<AudioSource>();
         gameOverText.SetActive(false);
         for (int i = -1; i <=1; ++i)
         {
@@ -38,9 +44,17 @@ public class GameManager : MonoBehaviour
 
     public void GameOver()
     {
-        gameOverText.SetActive(true);
+        if (!gameOver)
+        {
+            gameOver = true;
+            audioSource.Stop();
+            audioSource.volume = 1;
+            audioSource.PlayOneShot(gameOverSound);
 
-        StartCoroutine(WaitForResetButtonPress());
+            gameOverText.SetActive(true);
+
+            StartCoroutine(WaitForResetButtonPress());
+        }
     }
 
     IEnumerator WaitForResetButtonPress()

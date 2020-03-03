@@ -10,6 +10,12 @@ public class CrowdManager : MonoBehaviour
     static CrowdManager mInstance;
     static GameManager gm;
 
+    //AUDIO
+    [SerializeField]AudioSource audioCheer;
+    [SerializeField]AudioSource audioBoo;
+    [SerializeField] AudioClip cheer;
+    [SerializeField] AudioClip boo;
+
     float crowdScore = 100f;
     [SerializeField] float targetSpeed = 10f;
     [SerializeField] float scoreDecrease = 5f;
@@ -35,11 +41,18 @@ public class CrowdManager : MonoBehaviour
         gm = GameManager.Get;
         crowdScoreSlider.value = crowdScore;
         crowdScoreSlider.maxValue = 100;
+
+        audioBoo.clip = boo;
+        audioCheer.clip = cheer;
+        audioBoo.Play();
+        audioCheer.Play();
     }
 
     // Update is called once per frame
     void Update()
     {
+        audioBoo.volume = 1 - (crowdScore / 100);
+        audioCheer.volume = (crowdScore / 100);
         if (crowdScore <= 0)
         {
             gm.GameOver();
