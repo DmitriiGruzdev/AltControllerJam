@@ -15,6 +15,7 @@ public class CrowdManager : MonoBehaviour
     [SerializeField] float scoreDecrease = 5f;
     [SerializeField] float scoreIncrease = 2f;
     [SerializeField] float timeIncrease = 0.1f;
+    [SerializeField] float decreaseOnHit = 1f;
 
     //UI
     [SerializeField] Slider crowdScoreSlider;
@@ -62,6 +63,11 @@ public class CrowdManager : MonoBehaviour
     public void DecreaseCrowdScore(float amount)
     {
         crowdScore = Mathf.Clamp( crowdScore - amount, 0, 100);
+    }
+
+    public void DecreaseCrowdScore()
+    {
+        crowdScore = Mathf.Clamp(crowdScore - decreaseOnHit, 0, 100);
     }
 
     public void IncreaseCrowdScore(float amount)

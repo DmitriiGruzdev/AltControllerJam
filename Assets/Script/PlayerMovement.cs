@@ -35,6 +35,7 @@ public class PlayerMovement : MonoBehaviour
 
     private Animator anim;
     static GameManager gm;
+    static CrowdManager cm;
 
     private void Awake()
     {
@@ -46,6 +47,7 @@ public class PlayerMovement : MonoBehaviour
     void Start()
     {
         gm = GameManager.Get;
+        cm = CrowdManager.Get;
         groundVector = transform.position;
     }
 
@@ -254,5 +256,7 @@ public class PlayerMovement : MonoBehaviour
     private void OnCollisionEnter(Collision collision)
     {
         gm.MoveSpeed -= speedPenalty;
+        cm.DecreaseCrowdScore();
     }
+
 }

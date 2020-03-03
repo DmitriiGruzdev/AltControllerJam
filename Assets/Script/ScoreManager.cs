@@ -29,7 +29,6 @@ public class ScoreManager : MonoBehaviour
         set
         {
             score = value;
-            //Debug.Log("Score = " + score);
         }
     }
 }
