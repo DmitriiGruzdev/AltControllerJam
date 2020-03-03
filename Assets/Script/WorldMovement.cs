@@ -80,10 +80,12 @@ public class WorldMovement : MonoBehaviour
                 numOfActiveSections -= 1;
                 sections.Add(treadmillObjects[i]);
                 treadmillObjects.RemoveAt(i);
-                CheckSectionsStageREMOVE();
+                
             }
 
         }
+
+        CheckSectionsStageREMOVE();
     }
 
     /// <summary>
@@ -119,7 +121,7 @@ public class WorldMovement : MonoBehaviour
         //check active sections to remove
         for (int i = 0; i < sections.Count; i++)
         {
-            if (sections[i].GetComponent<Corridors>().removeScore > GetComponent<ScoreManager>().Score)
+            if (sections[i].GetComponent<Corridors>().removeScore < GetComponent<ScoreManager>().Score)
             {
                 finnishedSections.Add(sections[i]);
                 sections.RemoveAt(i);
