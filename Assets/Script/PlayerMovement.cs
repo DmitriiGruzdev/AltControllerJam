@@ -57,7 +57,7 @@ public class PlayerMovement : MonoBehaviour
         {
             if (jumping)
             {
-                StopAllCoroutines();
+                //StopAllCoroutines();
                 StartCoroutine(JumpDown());
             }
             else
@@ -163,8 +163,8 @@ public class PlayerMovement : MonoBehaviour
         float time = 0;
         while (true)
         {
-            if (!(Input.GetButtonDown("LeftFootLeft") || Input.GetButtonDown("RightFootLeft") || Input.GetButtonDown("LeftFootMid")
-            || Input.GetButtonDown("RightFootMid") || Input.GetButtonDown("LeftFootRight") || Input.GetButtonDown("RightFootRight")))
+            if (!(Input.GetButtonDown("LeftFootLeft") && Input.GetButtonDown("RightFootLeft") && Input.GetButtonDown("LeftFootMid")
+            && Input.GetButtonDown("RightFootMid") && Input.GetButtonDown("LeftFootRight") && Input.GetButtonDown("RightFootRight")))
             {
                 time += Time.deltaTime;
             }
@@ -189,7 +189,7 @@ public class PlayerMovement : MonoBehaviour
         float time = 0;
         Vector3 jumpVector = new Vector3(transform.position.x, jumpHeight, transform.position.z);
         groundVector = new Vector3(transform.position.x, groundVector.y, groundVector.z);
-        while (time <= timeToApex)
+        while (true)
         {
             time += Time.deltaTime;
             float perComp = time / timeToApex;
@@ -198,14 +198,12 @@ public class PlayerMovement : MonoBehaviour
 
             transform.position = Vector3.Lerp(transform.position, jumpVector, perComp);
             yield return null;
-        }
-
-        
+        }        
     }
     IEnumerator JumpDown()
     {
         float time = 0;
-        while (time <= timeToGround)
+        while (true)
         {
             time += Time.deltaTime;
             float perComp = time / timeToApex;

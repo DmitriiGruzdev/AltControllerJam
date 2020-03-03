@@ -7404,8 +7404,8 @@ MonoBehaviour:
   speedPenalty: 50
   timeBeforeStop: 1
   timeToApex: 0.5
-  timeBeforeJumpStart: 0.6
-  timeToGround: 0.1
+  timeBeforeJumpStart: 0.8
+  timeToGround: 0.05
   jumpHeight: 1.5
 --- !u!136 &1901604763
 CapsuleCollider:
