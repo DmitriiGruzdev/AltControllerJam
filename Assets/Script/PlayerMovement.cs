@@ -52,8 +52,8 @@ public class PlayerMovement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if ((Input.GetButtonDown("LeftFootLeft") || Input.GetButtonDown("RightFootLeft") || Input.GetButtonDown("LeftFootMid")
-            || Input.GetButtonDown("RightFootMid") || Input.GetButtonDown("LeftFootRight") || Input.GetButtonDown("RightFootRight")))
+        if ((Input.GetButton("LeftFootLeft") || Input.GetButton("RightFootLeft") || Input.GetButton("LeftFootMid")
+            || Input.GetButton("RightFootMid") || Input.GetButton("LeftFootRight") || Input.GetButton("RightFootRight")))
         {
             if (jumping)
             {
@@ -134,8 +134,8 @@ public class PlayerMovement : MonoBehaviour
             Vector3 newPos = new Vector3(capsuleCollider.center.x, (standingHeight / 2f), capsuleCollider.center.z);
             capsuleCollider.center = newPos;
         }
-        if ((Input.GetButton("LeftFootLeft") && Input.GetButton("RightFootLeft") || Input.GetButton("LeftFootMid")
-        && Input.GetButton("RightFootMid") || Input.GetButton("LeftFootRight") && Input.GetButton("RightFootRight")) && !jumping)
+        if (((Input.GetButton("LeftFootLeft") && Input.GetButton("RightFootLeft")) || (Input.GetButton("LeftFootMid")
+        && Input.GetButton("RightFootMid")) || (Input.GetButton("LeftFootRight") && Input.GetButton("RightFootRight"))) && !jumping)
         {
             StartCoroutine(CheckForJump());
         }
