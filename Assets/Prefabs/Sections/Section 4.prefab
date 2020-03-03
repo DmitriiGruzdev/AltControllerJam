@@ -99,7 +99,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   addScore: 0
-  removeScore: 20
+  removeScore: 10000
 --- !u!1 &1505549798511867441
 GameObject:
   m_ObjectHideFlags: 0
