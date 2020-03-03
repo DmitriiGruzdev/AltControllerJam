@@ -167,6 +167,7 @@ public class PlayerMovement : MonoBehaviour
             && Input.GetButtonDown("RightFootMid") && Input.GetButtonDown("LeftFootRight") && Input.GetButtonDown("RightFootRight")))
             {
                 time += Time.deltaTime;
+                //
             }
             else
             {
