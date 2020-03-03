@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 5457408980633033141}
   - component: {fileID: 8794972506961486991}
   m_Layer: 0
-  m_Name: Duck Obstacle 2
+  m_Name: Duck Obstacle 3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

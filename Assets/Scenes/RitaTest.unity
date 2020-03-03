@@ -9162,8 +9162,8 @@ GameObject:
   - component: {fileID: 2022398970}
   - component: {fileID: 2022398971}
   - component: {fileID: 2022398972}
-  - component: {fileID: 2022398974}
   - component: {fileID: 2022398973}
+  - component: {fileID: 2022398974}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -9303,10 +9303,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a35546d36ed38a94cb6f16b37ddb854c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  audioCheer: {fileID: 0}
-  audioBoo: {fileID: 0}
-  cheer: {fileID: 0}
-  boo: {fileID: 0}
+  audioCheer: {fileID: 2022398974}
+  audioBoo: {fileID: 2022398973}
+  cheer: {fileID: 8300000, guid: a7f43dd4c5f82ee49bf2aadfa1552984, type: 3}
+  boo: {fileID: 8300000, guid: a270205152fdf404b8bdfbe4e20f2cd3, type: 3}
   targetSpeed: 10
   scoreDecrease: 5
   scoreIncrease: 2
@@ -9425,7 +9425,7 @@ AudioSource:
   m_PlayOnAwake: 1
   m_Volume: 1
   m_Pitch: 1
-  Loop: 0
+  Loop: 1
   Mute: 0
   Spatialize: 0
   SpatializePostEffects: 0
@@ -9521,7 +9521,7 @@ AudioSource:
   m_PlayOnAwake: 1
   m_Volume: 1
   m_Pitch: 1
-  Loop: 0
+  Loop: 1
   Mute: 0
   Spatialize: 0
   SpatializePostEffects: 0
