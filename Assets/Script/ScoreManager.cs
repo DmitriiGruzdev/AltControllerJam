@@ -5,7 +5,7 @@ using UnityEngine;
 public class ScoreManager : MonoBehaviour
 {
     static ScoreManager mInstance;
-    int score;
+    float score;
 
     // Start is called before the first frame update
     void Awake()
@@ -20,7 +20,7 @@ public class ScoreManager : MonoBehaviour
             return mInstance;
         }
     }
-    public int Score
+    public float Score
     {
         get
         {
@@ -28,7 +28,7 @@ public class ScoreManager : MonoBehaviour
         }
         set
         {
-            score = value;
+            score = value;Debug.Log(score);
         }
     }
 }

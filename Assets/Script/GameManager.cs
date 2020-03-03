@@ -29,6 +29,7 @@ public class GameManager : MonoBehaviour
 
     private void Update()
     {
+        ScoreManager.Get.Score += (moveSpeed / 10) * Time.deltaTime;
         if (Input.GetKeyDown(KeyCode.Escape))
         {
             SceneManager.LoadScene(0);
@@ -78,7 +79,6 @@ public class GameManager : MonoBehaviour
         set
         {
             moveSpeed = Mathf.Clamp(value, 0, maxMoveSpeed);
-            ScoreManager.Get.Score += Mathf.RoundToInt(moveSpeed / 10);
         }
         get
         {
