@@ -1,6 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
@@ -10,10 +12,14 @@ public class GameManager : MonoBehaviour
     [SerializeField] float laneWidth;
     static GameManager mInstance;
 
+    //UI
+    [SerializeField] GameObject gameOverText;
+
     // Start is called before the first frame update
     void Awake()
     {
         mInstance = this;
+        gameOverText.SetActive(false);
         for (int i = -1; i <=1; ++i)
         {
             Vector3 newPos = new Vector3(laneWidth * i, lanes[i + 1].position.y, lanes[i + 1].position.z);
@@ -21,9 +27,34 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            SceneManager.LoadScene(0);
+        }
+    }
+
     public void GameOver()
     {
+        gameOverText.SetActive(true);
 
+        StartCoroutine(WaitForResetButtonPress());
+    }
+
+    IEnumerator WaitForResetButtonPress()
+    {
+        while(true)
+        {
+            if (Input.GetButtonDown("Duck"))
+            {
+                SceneManager.LoadSceneAsync(1);
+                StopAllCoroutines();
+                break;
+            }
+
+            yield return null;
+        }
     }
 
     public static GameManager Get
