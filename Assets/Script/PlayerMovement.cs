@@ -18,7 +18,7 @@ public class PlayerMovement : MonoBehaviour
 
     //RUNNING
     [SerializeField] float stoppingSpeed;
-    [SerializeField] float speedDecrement;
+    [SerializeField] float jumpSpeed;
     [SerializeField] float speedIncrement;
     [SerializeField] float speedPenalty;
     [SerializeField] float timeBeforeStop = 1f;
@@ -118,20 +118,21 @@ public class PlayerMovement : MonoBehaviour
                 audioSource.PlayOneShot(audioClips[1]);
             }
 
-            if (Input.GetButtonDown("Duck"))
-            {
-                capsuleCollider.height = duckHeight;
-                ducking = true;
-                Vector3 newPos = new Vector3(capsuleCollider.center.x, (standingHeight / 2f) - (duckHeight / 2f), capsuleCollider.center.z);
-                capsuleCollider.center = newPos;
-            }
-            else if (Input.GetButtonUp("Duck"))
-            {
-                capsuleCollider.height = standingHeight;
-                ducking = false;
-                Vector3 newPos = new Vector3(capsuleCollider.center.x, (standingHeight / 2f), capsuleCollider.center.z);
-                capsuleCollider.center = newPos;
-            }
+
+        }
+        if (Input.GetButtonDown("Duck"))
+        {
+            capsuleCollider.height = duckHeight;
+            ducking = true;
+            Vector3 newPos = new Vector3(capsuleCollider.center.x, (standingHeight / 2f) - (duckHeight / 2f), capsuleCollider.center.z);
+            capsuleCollider.center = newPos;
+        }
+        else if (Input.GetButtonUp("Duck"))
+        {
+            capsuleCollider.height = standingHeight;
+            ducking = false;
+            Vector3 newPos = new Vector3(capsuleCollider.center.x, (standingHeight / 2f), capsuleCollider.center.z);
+            capsuleCollider.center = newPos;
         }
 
         if (((Input.GetButton("LeftFootLeft") && Input.GetButton("RightFootLeft")) || (Input.GetButton("LeftFootMid")
@@ -167,7 +168,7 @@ public class PlayerMovement : MonoBehaviour
     IEnumerator CheckForJump()
     {
         float time = 0;
-        yield return new WaitForSeconds(Time.deltaTime);
+        yield return new WaitForSeconds(0.01f);
         while (true)
         {
             if (Input.GetButton("LeftFootLeft") || Input.GetButton("RightFootLeft") || Input.GetButton("LeftFootMid")
@@ -183,6 +184,7 @@ public class PlayerMovement : MonoBehaviour
             if (time >= timeBeforeJumpStart)
             {
                 jumping = true;
+                gm.MoveSpeed += jumpSpeed * Time.deltaTime;
                 StartCoroutine(JumpUp());
                 break;
             }
@@ -218,6 +220,7 @@ public class PlayerMovement : MonoBehaviour
             if (perComp >= 1)
             {
                 transform.position = groundVector;
+                gm.MoveSpeed -= jumpSpeed * Time.deltaTime;
                 break;
             }
             yield return null;

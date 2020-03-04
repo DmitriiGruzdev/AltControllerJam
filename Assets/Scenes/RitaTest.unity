@@ -8223,13 +8223,13 @@ MonoBehaviour:
   duckHeight: 2
   standingHeight: 4
   stoppingSpeed: 0
-  speedDecrement: 300
-  speedIncrement: 30
+  jumpSpeed: 100
+  speedIncrement: 40
   speedPenalty: 1000
   timeBeforeStop: 1
   timeCheckInterval: 0.5
   timeToApex: 0.3
-  timeBeforeJumpStart: 0.25
+  timeBeforeJumpStart: 0.1
   timeToGround: 0.3
   jumpHeight: 3
 --- !u!136 &1901604763
@@ -8751,7 +8751,7 @@ MonoBehaviour:
   - {fileID: 2107958292}
   - {fileID: 685971723}
   moveSpeed: 0
-  maxMoveSpeed: 200
+  maxMoveSpeed: 100
   laneWidth: 5
   gameOverText: {fileID: 2129901358}
 --- !u!114 &2022398970
@@ -8786,7 +8786,7 @@ MonoBehaviour:
   targetSpeed: 10
   scoreDecrease: 5
   scoreIncrease: 2
-  timeIncrease: 0.1
+  timeIncrease: 0.05
   decreaseOnHit: 20
   crowdScoreSlider: {fileID: 2019927339}
   minAngle: 0
