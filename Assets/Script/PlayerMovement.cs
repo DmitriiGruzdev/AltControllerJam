@@ -23,6 +23,10 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] float speedPenalty;
     [SerializeField] float timeBeforeStop = 1f;
 
+    [SerializeField] float timeCheckInterval = 1;
+    float timeSinceCheck = 0;
+    int stepCount = 0;
+
     bool stepped = false;
 
     //DUCK
@@ -62,6 +66,44 @@ public class PlayerMovement : MonoBehaviour
         if ((Input.GetButtonDown("LeftFootLeft") || Input.GetButtonDown("RightFootLeft") || Input.GetButtonDown("LeftFootMid")
             || Input.GetButtonDown("RightFootMid") || Input.GetButtonDown("LeftFootRight") || Input.GetButtonDown("RightFootRight")))
         {
+            if (!jumping)
+            {
+                Vector3 newPos = transform.position;
+                if (Input.GetButtonDown("LeftFootLeft"))
+                {
+                    newPos.x = -gm.LaneWidth;
+                    currentLane = CurrentLane.LEFT;
+                }
+                if (Input.GetButtonDown("RightFootLeft"))
+                {
+                    newPos.x = -gm.LaneWidth;
+                    currentLane = CurrentLane.LEFT;
+                }
+
+                if (Input.GetButtonDown("LeftFootMid"))
+                {
+                    newPos.x = 0;
+                    currentLane = CurrentLane.MID;
+                }
+                if (Input.GetButtonDown("RightFootMid"))
+                {
+                    newPos.x = 0;
+                    currentLane = CurrentLane.MID;
+                }
+
+                if (Input.GetButtonDown("LeftFootRight"))
+                {
+                    newPos.x = gm.LaneWidth;
+                    currentLane = CurrentLane.RIGHT;
+                }
+                if (Input.GetButtonDown("RightFootRight"))
+                {
+                    newPos.x = gm.LaneWidth;
+                    currentLane = CurrentLane.RIGHT;
+                }
+                transform.position = newPos;
+            }
+
             if (stepPlayed)
             {
                 stepPlayed = false;
@@ -72,115 +114,69 @@ public class PlayerMovement : MonoBehaviour
                 stepPlayed = true;
                 audioSource.PlayOneShot(audioClips[1]);
             }
-        }
-
-        if ((Input.GetButtonDown("LeftFootLeft") || Input.GetButtonDown("RightFootLeft") || Input.GetButtonDown("LeftFootMid")
-            || Input.GetButtonDown("RightFootMid") || Input.GetButtonDown("LeftFootRight") || Input.GetButtonDown("RightFootRight")))
-        {
-
             if (jumping)
             {
-                //StopAllCoroutines();
                 StartCoroutine(JumpDown());
             }
-            else
+            if (Input.GetButtonDown("Duck"))
             {
-                stepped = true;              
-
-                StopAllCoroutines();
-                StartCoroutine(ResetStepped());
-                Vector3 newPos = transform.position;
-                if (Input.GetButtonDown("LeftFootLeft"))
-                {
-                    gm.MoveSpeed += speedIncrement * Time.deltaTime;
-                    newPos.x = -gm.LaneWidth;
-                    currentLane = CurrentLane.LEFT;
-                }
-                if (Input.GetButtonDown("RightFootLeft"))
-                {
-                    gm.MoveSpeed += speedIncrement * Time.deltaTime;
-                    newPos.x = -gm.LaneWidth;
-                    currentLane = CurrentLane.LEFT;
-                }
-
-                if (Input.GetButtonDown("LeftFootMid"))
-                {
-                    gm.MoveSpeed += speedIncrement * Time.deltaTime;
-                    newPos.x = 0;
-                    currentLane = CurrentLane.MID;
-                }
-                if (Input.GetButtonDown("RightFootMid"))
-                {
-                    gm.MoveSpeed += speedIncrement * Time.deltaTime;
-                    newPos.x = 0;
-                    currentLane = CurrentLane.MID;
-                }
-
-                if (Input.GetButtonDown("LeftFootRight"))
-                {
-                    gm.MoveSpeed += speedIncrement * Time.deltaTime;
-                    newPos.x = gm.LaneWidth;
-                    currentLane = CurrentLane.RIGHT;
-                }
-                if (Input.GetButtonDown("RightFootRight"))
-                {
-                    gm.MoveSpeed += speedIncrement * Time.deltaTime;
-                    newPos.x = gm.LaneWidth;
-                    currentLane = CurrentLane.RIGHT;
-                }
-
-                transform.position = newPos;
+                capsuleCollider.height = duckHeight;
+                ducking = true;
+                Vector3 newPos = new Vector3(capsuleCollider.center.x, (standingHeight / 2f) - (duckHeight / 2f), capsuleCollider.center.z);
+                capsuleCollider.center = newPos;
             }
-        }
-        else if (!jumping)
-        {
-            if (!stepped)
+            else if (Input.GetButtonUp("Duck"))
             {
-                gm.MoveSpeed -= stoppingSpeed * Time.deltaTime;
-            }
-            else
-            {
-                gm.MoveSpeed -= (gm.MoveSpeed) * Time.deltaTime;
+                capsuleCollider.height = standingHeight;
+                ducking = false;
+                Vector3 newPos = new Vector3(capsuleCollider.center.x, (standingHeight / 2f), capsuleCollider.center.z);
+                capsuleCollider.center = newPos;
             }
         }
 
-        if (Input.GetButtonDown("Duck"))
-        {
-            capsuleCollider.height = duckHeight;
-            ducking = true;
-            Vector3 newPos = new Vector3(capsuleCollider.center.x, (standingHeight / 2f) - (duckHeight / 2f), capsuleCollider.center.z);
-            capsuleCollider.center = newPos;
-        }
-        else if (Input.GetButtonUp("Duck"))
-        {
-            capsuleCollider.height = standingHeight;
-            ducking = false;
-            Vector3 newPos = new Vector3(capsuleCollider.center.x, (standingHeight / 2f), capsuleCollider.center.z);
-            capsuleCollider.center = newPos;
-        }
         if (((Input.GetButton("LeftFootLeft") && Input.GetButton("RightFootLeft")) || (Input.GetButton("LeftFootMid")
         && Input.GetButton("RightFootMid")) || (Input.GetButton("LeftFootRight") && Input.GetButton("RightFootRight"))) && !jumping)
         {
             StartCoroutine(CheckForJump());
         }
 
-        AnimationCheck();
-    }
-
-    IEnumerator ResetStepped()
-    {
-        float time = 0;
-
-        while (true)
+        if (timeSinceCheck > timeCheckInterval)
         {
-            time += Time.deltaTime;
-            if (time >= timeBeforeStop)
+            if (stepCount == 0 && gm.MoveSpeed != 0)
             {
-                stepped = false;
-                break;
+                gm.MoveSpeed = gm.MoveSpeed / 2f;
             }
-            yield return null;
+
+            stepped = true;
+
+            gm.MoveSpeed += (speedIncrement * (stepCount / timeCheckInterval)) * Time.deltaTime;            
+
+            if (!jumping)
+            {
+                if (!stepped)
+                {
+                    gm.MoveSpeed -= stoppingSpeed * Time.deltaTime;
+                }
+                else
+                {
+                    gm.MoveSpeed -= (gm.MoveSpeed) * Time.deltaTime;
+                }
+            }
+            //Debug.Log(stepCount);
+
+            stepCount = 0;
+            timeSinceCheck = 0;
         }
+        else
+        {
+            timeSinceCheck += Time.deltaTime;
+            if ((Input.GetButtonDown("LeftFootLeft") || Input.GetButtonDown("RightFootLeft") || Input.GetButtonDown("LeftFootMid")
+            || Input.GetButtonDown("RightFootMid") || Input.GetButtonDown("LeftFootRight") || Input.GetButtonDown("RightFootRight")))
+            {
+                stepCount++;
+            }
+        }
+        AnimationCheck();
     }
 
     IEnumerator CheckForJump()
