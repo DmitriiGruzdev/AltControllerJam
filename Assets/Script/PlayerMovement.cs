@@ -79,7 +79,6 @@ public class PlayerMovement : MonoBehaviour
                     newPos.x = -gm.LaneWidth;
                     currentLane = CurrentLane.LEFT;
                 }
-
                 if (Input.GetButtonDown("LeftFootMid"))
                 {
                     newPos.x = 0;
@@ -103,6 +102,10 @@ public class PlayerMovement : MonoBehaviour
                 }
                 transform.position = newPos;
             }
+            else
+            {
+                StartCoroutine(JumpDown());
+            }
 
             if (stepPlayed)
             {
@@ -114,10 +117,7 @@ public class PlayerMovement : MonoBehaviour
                 stepPlayed = true;
                 audioSource.PlayOneShot(audioClips[1]);
             }
-            if (jumping)
-            {
-                StartCoroutine(JumpDown());
-            }
+
             if (Input.GetButtonDown("Duck"))
             {
                 capsuleCollider.height = duckHeight;
@@ -147,21 +147,7 @@ public class PlayerMovement : MonoBehaviour
                 gm.MoveSpeed = gm.MoveSpeed / 2f;
             }
 
-            stepped = true;
-
             gm.MoveSpeed += (speedIncrement * (stepCount / timeCheckInterval)) * Time.deltaTime;            
-
-            if (!jumping)
-            {
-                if (!stepped)
-                {
-                    gm.MoveSpeed -= stoppingSpeed * Time.deltaTime;
-                }
-                else
-                {
-                    gm.MoveSpeed -= (gm.MoveSpeed) * Time.deltaTime;
-                }
-            }
             //Debug.Log(stepCount);
 
             stepCount = 0;
@@ -184,11 +170,10 @@ public class PlayerMovement : MonoBehaviour
         float time = 0;
         while (true)
         {
-            if (!(Input.GetButtonDown("LeftFootLeft") && Input.GetButtonDown("RightFootLeft") && Input.GetButtonDown("LeftFootMid")
-            && Input.GetButtonDown("RightFootMid") && Input.GetButtonDown("LeftFootRight") && Input.GetButtonDown("RightFootRight")))
+            if (!(Input.GetButtonDown("LeftFootLeft") || Input.GetButtonDown("RightFootLeft") || Input.GetButtonDown("LeftFootMid")
+            || Input.GetButtonDown("RightFootMid") || Input.GetButtonDown("LeftFootRight") || Input.GetButtonDown("RightFootRight")))
             {
                 time += Time.deltaTime;
-                //
             }
             else
             {
@@ -210,7 +195,7 @@ public class PlayerMovement : MonoBehaviour
     {
         float time = 0;
         Vector3 jumpVector = new Vector3(transform.position.x, jumpHeight, transform.position.z);
-        groundVector = new Vector3(transform.position.x, groundVector.y, groundVector.z);
+        groundVector = transform.position;
         while (true)
         {
             time += Time.deltaTime;
@@ -228,14 +213,15 @@ public class PlayerMovement : MonoBehaviour
         while (true)
         {
             time += Time.deltaTime;
-            float perComp = time / timeToApex;
-            if (perComp >= 1)
-                break;
-
+            float perComp = time / timeToGround;
             transform.position = Vector3.Lerp(transform.position, groundVector, perComp);
+            if (perComp >= 1)
+            {
+                jumping = false;
+                break;
+            }
             yield return null;
         }
-        jumping = false;
     }
 
     /// <summary>
