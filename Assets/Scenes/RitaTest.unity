@@ -8229,8 +8229,8 @@ MonoBehaviour:
   timeBeforeStop: 1
   timeCheckInterval: 0.5
   timeToApex: 0.3
-  timeBeforeJumpStart: 0.3
-  timeToGround: 0.5
+  timeBeforeJumpStart: 0.25
+  timeToGround: 0.3
   jumpHeight: 3
 --- !u!136 &1901604763
 CapsuleCollider:

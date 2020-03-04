@@ -68,7 +68,7 @@ public class PlayerMovement : MonoBehaviour
         {
             if (!jumping)
             {
-                Vector3 newPos = transform.position;
+                Vector3 newPos = new Vector3(transform.position.x, groundVector.y, groundVector.z);
                 if (Input.GetButtonDown("LeftFootLeft"))
                 {
                     newPos.x = -gm.LaneWidth;
@@ -148,7 +148,6 @@ public class PlayerMovement : MonoBehaviour
             }
 
             gm.MoveSpeed += (speedIncrement * (stepCount / timeCheckInterval)) * Time.deltaTime;            
-            //Debug.Log(stepCount);
 
             stepCount = 0;
             timeSinceCheck = 0;
@@ -168,19 +167,19 @@ public class PlayerMovement : MonoBehaviour
     IEnumerator CheckForJump()
     {
         float time = 0;
+        yield return new WaitForSeconds(Time.deltaTime);
         while (true)
         {
-            if (!(Input.GetButtonDown("LeftFootLeft") || Input.GetButtonDown("RightFootLeft") || Input.GetButtonDown("LeftFootMid")
-            || Input.GetButtonDown("RightFootMid") || Input.GetButtonDown("LeftFootRight") || Input.GetButtonDown("RightFootRight")))
-            {
-                time += Time.deltaTime;
-            }
-            else
-            {
+            if (Input.GetButton("LeftFootLeft") || Input.GetButton("RightFootLeft") || Input.GetButton("LeftFootMid")
+            || Input.GetButton("RightFootMid") || Input.GetButton("LeftFootRight") || Input.GetButton("RightFootRight"))
+            {                
                 time = 0;
                 break;
             }
-
+            else
+            {
+                time += Time.deltaTime;
+            }
             if (time >= timeBeforeJumpStart)
             {
                 jumping = true;
@@ -195,15 +194,16 @@ public class PlayerMovement : MonoBehaviour
     {
         float time = 0;
         Vector3 jumpVector = new Vector3(transform.position.x, jumpHeight, transform.position.z);
-        groundVector = transform.position;
+        groundVector = new Vector3(transform.position.x, groundVector.y, groundVector.z);
         while (true)
         {
             time += Time.deltaTime;
             float perComp = time / timeToApex;
+            transform.position = Vector3.Lerp(transform.position, jumpVector, perComp);
             if (perComp >= 1)
                 break;
 
-            transform.position = Vector3.Lerp(transform.position, jumpVector, perComp);
+
             yield return null;
         }        
     }
@@ -217,11 +217,12 @@ public class PlayerMovement : MonoBehaviour
             transform.position = Vector3.Lerp(transform.position, groundVector, perComp);
             if (perComp >= 1)
             {
-                jumping = false;
+                transform.position = groundVector;
                 break;
             }
             yield return null;
         }
+        jumping = false;
     }
 
     /// <summary>
