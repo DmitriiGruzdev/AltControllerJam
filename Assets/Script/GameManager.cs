@@ -52,7 +52,7 @@ public class GameManager : MonoBehaviour
             audioSource.PlayOneShot(gameOverSound);
 
             gameOverText.SetActive(true);
-
+            GetComponent<ScoreManager>().UpdateHighScore();
             StartCoroutine(WaitForResetButtonPress());
         }
     }
