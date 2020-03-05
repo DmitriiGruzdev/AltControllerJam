@@ -18,7 +18,7 @@ public class HighScore : MonoBehaviour
     {
         highScore = _newScore;
         highScoreDisplay.GetComponent<TextMeshProUGUI>().text = Mathf.RoundToInt(highScore).ToString();
-        UpdateTxtFile();
+        //UpdateTxtFile();
 
     }
 
@@ -32,7 +32,7 @@ public class HighScore : MonoBehaviour
 
     public void StartHighScore()
     {
-        highScore = ReadTxtFile();
+        //highScore = ReadTxtFile();
         highScoreDisplay = GameObject.FindGameObjectWithTag("HSDisplay");
        
 
@@ -40,7 +40,7 @@ public class HighScore : MonoBehaviour
 
     void UpdateTxtFile()
     {
-        string path = "Assets/Resources/HighScore.txt";
+        string path = Application.persistentDataPath + "/HighScore.txt";
 
         //add some to text to it
 
@@ -51,7 +51,7 @@ public class HighScore : MonoBehaviour
 
     float ReadTxtFile()
     {
-        string path = "Assets/Resources/HighScore.txt";
+        string path = Application.persistentDataPath + "/HighScore.txt";
         StreamReader reader = new StreamReader(path);
         return float.Parse(reader.ReadToEnd());
     }

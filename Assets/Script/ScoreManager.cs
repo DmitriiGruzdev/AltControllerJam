@@ -9,6 +9,7 @@ public class ScoreManager : MonoBehaviour
     float score;
     public GameObject scoreDisplay;
     public GameObject highScoreInstance;
+    public float highScoreValue;
 
     private GameObject highScore;
     // Start is called before the first frame update
@@ -19,6 +20,7 @@ public class ScoreManager : MonoBehaviour
         {
             GameObject newHighScore = Instantiate(highScoreInstance);
             highScore = newHighScore;
+            highScore.GetComponent<HighScore>().highScore=highScoreValue;
         }
         else
         {
