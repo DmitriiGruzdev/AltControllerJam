@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using TMPro;
 using UnityEngine;
 
@@ -17,6 +18,7 @@ public class HighScore : MonoBehaviour
     {
         highScore = _newScore;
         highScoreDisplay.GetComponent<TextMeshProUGUI>().text = Mathf.RoundToInt(highScore).ToString();
+        UpdateTxtFile();
 
     }
 
@@ -30,8 +32,28 @@ public class HighScore : MonoBehaviour
 
     public void StartHighScore()
     {
+        highScore = ReadTxtFile();
         highScoreDisplay = GameObject.FindGameObjectWithTag("HSDisplay");
+       
+
+    }
+
+    void UpdateTxtFile()
+    {
+        string path = "Assets/Resources/HighScore.txt";
+
+        //add some to text to it
+
+        File.WriteAllText(path, Mathf.RoundToInt(highScore).ToString());
       
+        
+    }
+
+    float ReadTxtFile()
+    {
+        string path = "Assets/Resources/HighScore.txt";
+        StreamReader reader = new StreamReader(path);
+        return float.Parse(reader.ReadToEnd());
     }
 
 }
