@@ -10419,9 +10419,9 @@ MonoBehaviour:
   boo: {fileID: 8300000, guid: a270205152fdf404b8bdfbe4e20f2cd3, type: 3}
   targetSpeed: 10
   decreaseDistanceThreshold: 1000
-  scoreDecreaseIncrement: 1
+  scoreDecreaseIncrement: 0.5
   scoreDecrease: 5
-  scoreIncrease: 2
+  scoreIncrease: 3
   timeIncrease: 0.05
   decreaseOnHit: 5
   crowdScoreSlider: {fileID: 2019927339}
