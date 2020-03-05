@@ -10418,8 +10418,8 @@ MonoBehaviour:
   cheer: {fileID: 8300000, guid: a7f43dd4c5f82ee49bf2aadfa1552984, type: 3}
   boo: {fileID: 8300000, guid: a270205152fdf404b8bdfbe4e20f2cd3, type: 3}
   targetSpeed: 10
-  decreaseDistanceThreshold: 10
-  scoreDecreaseIncrement: 10
+  decreaseDistanceThreshold: 1000
+  scoreDecreaseIncrement: 1
   scoreDecrease: 5
   scoreIncrease: 2
   timeIncrease: 0.05

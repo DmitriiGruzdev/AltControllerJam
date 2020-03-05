@@ -143,7 +143,7 @@ public class PlayerMovement : MonoBehaviour
 
         if (timeSinceCheck > timeCheckInterval)
         {
-            if (stepCount == 0 && gm.MoveSpeed != 0 && !jumping)
+            if (stepCount == 0 && gm.MoveSpeed != 0)
             {
                 gm.MoveSpeed = gm.MoveSpeed / 2f;
             }
