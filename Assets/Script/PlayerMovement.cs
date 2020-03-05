@@ -143,7 +143,7 @@ public class PlayerMovement : MonoBehaviour
 
         if (timeSinceCheck > timeCheckInterval)
         {
-            if (stepCount == 0 && gm.MoveSpeed != 0)
+            if (stepCount == 0 && gm.MoveSpeed != 0 && !jumping)
             {
                 gm.MoveSpeed = gm.MoveSpeed / 2f;
             }
@@ -197,6 +197,7 @@ public class PlayerMovement : MonoBehaviour
         float time = 0;
         Vector3 jumpVector = new Vector3(transform.position.x, jumpHeight, transform.position.z);
         groundVector = new Vector3(transform.position.x, groundVector.y, groundVector.z);
+        capsuleCollider.enabled = false;
         while (true)
         {
             time += Time.deltaTime;
@@ -219,8 +220,8 @@ public class PlayerMovement : MonoBehaviour
             transform.position = Vector3.Lerp(transform.position, groundVector, perComp);
             if (perComp >= 1)
             {
+                capsuleCollider.enabled = true;
                 transform.position = groundVector;
-                gm.MoveSpeed -= jumpSpeed * Time.deltaTime;
                 break;
             }
             yield return null;

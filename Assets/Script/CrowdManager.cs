@@ -18,10 +18,14 @@ public class CrowdManager : MonoBehaviour
 
     float crowdScore = 100f;
     [SerializeField] float targetSpeed = 10f;
+    [SerializeField] int decreaseDistanceThreshold = 250;
+    [SerializeField] float scoreDecreaseIncrement = 10f;
     [SerializeField] float scoreDecrease = 5f;
     [SerializeField] float scoreIncrease = 2f;
     [SerializeField] float timeIncrease = 0.1f;
     [SerializeField] float decreaseOnHit = 1f;
+
+    bool decremnented = false;
 
     //UI
     [SerializeField] Slider crowdScoreSlider;
@@ -56,6 +60,15 @@ public class CrowdManager : MonoBehaviour
         if (crowdScore <= 0)
         {
             gm.GameOver();
+        }
+        if ((ScoreManager.Get.Score > 1) && (Mathf.RoundToInt(ScoreManager.Get.Score) % decreaseDistanceThreshold == 0) && !decremnented)
+        {
+            decremnented = true;
+            scoreDecrease += scoreDecreaseIncrement;
+        }
+        else if (Mathf.RoundToInt(ScoreManager.Get.Score) % decreaseDistanceThreshold != 0 && decremnented)
+        {
+            decremnented = false;
         }
 
         if (gm.MoveSpeed < targetSpeed)
